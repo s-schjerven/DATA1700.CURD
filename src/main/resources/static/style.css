@@ -1,0 +1,12 @@
+.body {
+    margin: 0;
+    display: flex;
+}
+
+.card {
+    padding: 10px;
+    width: 40%;
+    margin-top: 10%;
+}
+
+.hidden {display: none;}
