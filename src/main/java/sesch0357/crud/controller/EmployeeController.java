@@ -32,17 +32,23 @@ public class EmployeeController {
     }
 
     @PutMapping("/put/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeRequest request) {
+    public ResponseEntity<Employee> updateEmployee(
+            @PathVariable Long id,
+            @Valid @RequestBody EmployeeRequest request) {
+        System.out.println("PUT /employees/put/" + id + " called");
         Optional<Employee> existing = repository.findById(id);
         if (existing.isPresent()) {
-            Employee emp = existing.get();
-            existing.get().setFirstName(request.firstName());
-            existing.get().setLastName(request.lastName());
-            existing.get().setPhoneNumber(request.phoneNumber());
-            return ResponseEntity.ok(repository.save(emp));
+            int rowsAffected = repository.update(id, request.firstName(), request.lastName(), request.phoneNumber());
+            if (rowsAffected > 0) {
+                Employee updated = new Employee(id, request.firstName(), request.lastName(), request.phoneNumber());
+                return ResponseEntity.ok(updated);
+            } else {
+                return ResponseEntity.status(500).build(); // Something went wrong
+            }
         } else {
             return ResponseEntity.notFound().build();
         }
+
     }
 
     @DeleteMapping("/{id}")
@@ -54,4 +60,5 @@ public class EmployeeController {
             return ResponseEntity.notFound().build();
         }
     }
+
 }

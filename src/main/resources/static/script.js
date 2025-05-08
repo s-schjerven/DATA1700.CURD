@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    id: parseInt(id),
                     firstName: firstNameEdit,
                     lastName: lastNameEdit,
                     phoneNumber: phoneNumberEdit,
